@@ -1,0 +1,49 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+
+// has else added fonts to Input
+*{
+    font-family: "Inter", sans-serif;
+}
+
+._blockProfile {
+    position: relative;
+    margin: 40px 0 0 56px;
+    display: flex;
+    flex-direction: column;
+    ._avatar_image{
+        border-radius: 50%;
+        width: 280px;
+        height: 280px;
+    }
+
+    ._blockProfile_userInfo{
+        a{
+            text-decoration: none;
+            color: #0064EB;
+            cursor: pointer;
+        }
+        
+        p{
+            margin: auto 0;
+            padding: 0 0 2px 0;
+        }
+
+        ._blockProfile_follow{
+            margin-top: 25px;
+            display: flex;
+
+            ._follow_block{
+
+                ._icon_follow{
+                    margin: auto 5px;
+                }
+
+                display: inherit;
+                align-items: center;
+                margin-right: 16px;
+            }
+
+        }
+    }
+
+}
