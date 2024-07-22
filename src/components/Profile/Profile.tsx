@@ -5,6 +5,8 @@ import Folowers from "../../images/followers.png";
 import Folowing from "../../images/following.png";
 import Repositories from "../Repositories/ItemRepository";
 import { Trepo } from "../Repositories/ItemRepository";
+import { LIST_STATES } from "../States/CurrentState";
+import CurrentState from "../States/CurrentState";
 
 
 
@@ -74,7 +76,12 @@ const Profile:FC<propsProfileComponent> = (props)=> {
                         )
                     }
                     </div> 
-                    : null
+                    : <CurrentState 
+                        className={LIST_STATES.no_repositories_state.className} 
+                        title_image={LIST_STATES.no_repositories_state.title_image}
+                        image={LIST_STATES.no_repositories_state.image}
+                        text={LIST_STATES.no_repositories_state.text}
+                        />
                    }               
         </div>
     )

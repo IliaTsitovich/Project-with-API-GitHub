@@ -5,19 +5,20 @@ import iconSearch from "./images/imageSearchIcon.png";
 import Profile from "./components/Profile/Profile";
 import "./fonts/_style_fonts.scss";
 import "./_style_main.scss";
-import { propsProfileComponent } from "./components/Profile/Profile";
-import { Trepo } from "./components/Repositories/ItemRepository";
+import { propsProfileComponent } from './components/Profile/Profile';
+import { Trepo } from './components/Repositories/ItemRepository';
+import CurrentState from './components/States/CurrentState';
+import { LIST_STATES } from './components/States/CurrentState';
+
 
 function App() {
 
   const [valueLinkFetch, setValueLinkFetch] = useState('');
   const [data, setData] = useState<propsProfileComponent | null>(null);
-  const [arrayRepositories, setArrayRepositories] = useState<
-    Trepo[] | undefined
-  >(undefined);
-  const [valueInput, setValueInput] = useState("");
-  const [userLink, setUserLink] = useState("");
+  const [valueInput, setValueInput] = useState('');
+  const [userLink, setUserLink]= useState('');
   const [status, setStatus] = useState(false);
+  const [initState, setInitState] = useState(true)
 
 function setCurrentNameFromInput(currentNameFromInput:string) {
     setValueLinkFetch(currentNameFromInput.split(' ').join(""))
@@ -68,6 +69,7 @@ async function getDataFromApi(e: React.KeyboardEvent) {
         }
     }
 }
+
   return (
     <>
       <Header
@@ -78,11 +80,21 @@ async function getDataFromApi(e: React.KeyboardEvent) {
         submit={getDataFromApi}
       />
 <<<<<<< HEAD
+<<<<<<< HEAD
 
       <div className="_main">
         {status && data ? (
 =======
       
+=======
+      {initState? <CurrentState 
+            className={LIST_STATES.initial_state.className} 
+            title_image={LIST_STATES.initial_state.title_image}
+            image={LIST_STATES.initial_state.image}
+            text={LIST_STATES.initial_state.text}
+            /> 
+      :
+>>>>>>> 662bc53 (feat(components): added new components States: Init State,No Repo state,No users states)
       <div className='_main'>
         {status && data?
 >>>>>>> b52aa19 (fix: rebase conflicts)
@@ -101,10 +113,23 @@ async function getDataFromApi(e: React.KeyboardEvent) {
 >>>>>>> b52aa19 (fix: rebase conflicts)
             arrOfRepo={arrayRepositories}
           />
+<<<<<<< HEAD
         ) : (
           "Not Found"
         )}
+=======
+          :
+          <CurrentState 
+            className={LIST_STATES.no_users_state.className} 
+            title_image={LIST_STATES.no_users_state.title_image}
+            image={LIST_STATES.no_users_state.image}
+            text={LIST_STATES.no_users_state.text}
+            />
+        }
+
+>>>>>>> 662bc53 (feat(components): added new components States: Init State,No Repo state,No users states)
       </div>
+    }
     </>
   );
 }
