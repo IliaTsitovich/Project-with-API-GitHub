@@ -6,13 +6,14 @@ import Profile from './components/Profile/Profile';
 import "./fonts/_style_fonts.scss";
 import "./_style_main.scss";
 import { propsProfileComponent } from './components/Profile/Profile';
-
+import { Trepo } from './components/Repositories/ItemRepository'
 
 
 function App() {
 
   const [value, setValue] = useState('');
   const [data, setData] = useState<propsProfileComponent | null>(null);
+  const [arrayRepositories, setArrayRepositories] = useState<Trepo[] | undefined>(undefined)
   const [valueInput, setValueInput] = useState('');
   const [userLink, setUserLink]= useState('');
   const [status, setStatus] = useState(false)
@@ -26,41 +27,44 @@ function App() {
   }
 
 
-    useEffect(()=>{
-      console.log(value);
-    },[value])
 
-    useEffect(()=>{
-      console.log(data);
-    },[data])
-
-    useEffect(()=>{
-      console.log(`${status? "Получили ответ запроса" : "ошибка запроса или ничего не найдено"}`);
-    },[status])
-
-   function api(e:any) {
+async function getInfoAboutRepositories (data: propsProfileComponent) {
+  let urlRepo: string = data.repos_url
+  fetch(urlRepo)
+  .then(response => {
+    if (!response.ok) {
+      console.log("Request to Repositories is error")
+    }
+    return response.json();
+  })
+  .then((result)=>{
+    setArrayRepositories(result)
+  })
+}
+  
+  async function api(e:any) {
     
-    let url = `https://api.github.com/users/${value}`
- 
     if(e.key === "Enter" && value !== "") {
       console.log('Enter');
       console.log("value is " + value);
       setValueInput("")
 
-    fetch(url)
+    fetch(`https://api.github.com/users/${value}`)
         .then(response => {
         if (!response.ok) {
-          alert("Request error")
           setStatus(false)
         } else {
           setStatus(true)
         }
         return response.json();
       })
-        .then((data)=>{setData(data)})
+        .then((data)=>{
+          setData(data)
+          getInfoAboutRepositories(data)
+        })
         .then(()=> setValue(""))
     }
-   }
+  }
 
   return (
     <>
@@ -71,7 +75,8 @@ function App() {
         valueInput={valueInput}
         submitRequest={api}
       />
-      <div className='mainInfo'>
+      
+      <div className='_main'>
         {status && data?
           <Profile
             avatar_url={data.avatar_url} 
@@ -80,10 +85,12 @@ function App() {
             login={data.login}
             followers={data.followers}
             following={data.following}
+            repos_url={data.repos_url}
+            isRepo = {true}
+            arrOfRepo={arrayRepositories}
           />
           :
-          // заглушка пока что - при поиске пользователя "ss" - получаем ошибку(для проверки)
-          "Ничего не найдено (заглушка)"
+          "Not Found"
         }
 
       </div>

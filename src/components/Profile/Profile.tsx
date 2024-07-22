@@ -3,6 +3,10 @@ import { FC } from "react";
 import "./_style_Profile.scss";
 import Folowers from "../../images/followers.png";
 import Folowing from "../../images/following.png";
+import Repositories from "../Repositories/ItemRepository";
+import { Trepo } from "../Repositories/ItemRepository";
+
+
 
 export type propsProfileComponent= {
     avatar_url: string,
@@ -10,13 +14,20 @@ export type propsProfileComponent= {
     name: string,
     login: string,
     followers: number,
-    following: number
+    following: number,
+    repos_url: string,
+    isRepo?: boolean,
+    arrOfRepo?: Trepo[];
 }
 
-const Profile:FC<propsProfileComponent> = ({...props})=> {
+
+const Profile:FC<propsProfileComponent> = (props)=> {
+
+    const listRepositories = props.arrOfRepo;
     
     return (
-        <div className="_blockProfile">
+        <div className="_main_info">
+            <div className="_blockProfile">
                 <AnyImage 
                     image = {props.avatar_url} 
                     classNameImage="_avatar_image" 
@@ -28,7 +39,8 @@ const Profile:FC<propsProfileComponent> = ({...props})=> {
                     <a 
                         href={`https://github.com/${props.userName}`}
                         target="_blank" 
-                        rel="noopener noreferrer">
+                        rel="noopener noreferrer"
+                        className="_user_link">
                             {props.login}
                     </a>
                 <div className="_blockProfile_follow">
@@ -46,6 +58,24 @@ const Profile:FC<propsProfileComponent> = ({...props})=> {
                     </div>
                 </div>
             </div>
+            </div>
+                   {
+                   listRepositories != undefined? 
+                    <div className="_main_repo">
+                    <h2>{`Repositories (${listRepositories.length})`}</h2>
+                    {
+                        listRepositories.map((item)=>
+                            <Repositories  
+                                name = {item.name}
+                                id={item.id}
+                                description={item.description}
+                                html_url={item.html_url}
+                                />
+                        )
+                    }
+                    </div> 
+                    : null
+                   }               
         </div>
     )
 }
