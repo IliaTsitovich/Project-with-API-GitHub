@@ -9,7 +9,8 @@ import { propsProfileComponent } from "./components/Profile/Profile";
 import { Trepo } from "./components/Repositories/ItemRepository";
 
 function App() {
-  const [value, setValue] = useState("");
+
+  const [valueLinkFetch, setValueLinkFetch] = useState('');
   const [data, setData] = useState<propsProfileComponent | null>(null);
   const [arrayRepositories, setArrayRepositories] = useState<
     Trepo[] | undefined
@@ -18,15 +19,8 @@ function App() {
   const [userLink, setUserLink] = useState("");
   const [status, setStatus] = useState(false);
 
-  const getValue = (e: any): void => {
-    let nameOfUser: string = e.currentTarget.value;
 
-    setValue(nameOfUser.split(" ").join(""));
-    setUserLink(nameOfUser.split(" ").join(""));
-    setValueInput(nameOfUser);
-  };
-
-  async function getInfoAboutRepositories(data: propsProfileComponent) {
+async function getInfoAboutRepositories(data: propsProfileComponent) {
     let urlRepo: string = data.repos_url;
     fetch(urlRepo)
       .then((response) => {
@@ -40,37 +34,51 @@ function App() {
       });
   }
 
-  async function api(e: any) {
-    if (e.key === "Enter" && value !== "") {
-      console.log("Enter");
-      console.log("value is " + value);
-      setValueInput("");
-
-      fetch(`https://api.github.com/users/${value}`)
-        .then((response) => {
-          if (!response.ok) {
-            setStatus(false);
-          } else {
-            setStatus(true);
-          }
-          return response.json();
-        })
-        .then((data) => {
-          setData(data);
-          getInfoAboutRepositories(data);
-        })
-        .then(() => setValue(""));
-    }
+  
+function setCurrentNameFromInput(currentNameFromInput:string) {
+    setValueLinkFetch(currentNameFromInput.split(' ').join(""))
+    setUserLink(currentNameFromInput.split(' ').join(""))
+    setValueInput(currentNameFromInput)
   }
+
+const getValue = (e:React.ChangeEvent<HTMLInputElement>):void=> {
+    const nameOfUser: string = e.currentTarget.value;
+    setCurrentNameFromInput(nameOfUser)
+  }
+
+  async function getDataFromApi(e: React.KeyboardEvent) {
+    const url = `https://api.github.com/users/${valueLinkFetch}`;
+
+    if (e.key === "Enter" && valueLinkFetch !== "") {
+        setValueInput("");
+
+        try {
+            const response = await fetch(url);
+            if (!response.ok) {
+                throw new Error("Request error");
+            }
+            const data = await response.json();
+            setData(data);
+            setStatus(true);
+            getInfoAboutRepositories(data)
+        } catch (error) {
+            console.error("Error fetching data:", error);
+            alert("Request error");
+            setStatus(false);
+        } finally {
+            setValueLinkFetch("");
+        }
+    }
+}
 
   return (
     <>
       <Header
         imageLogo={Logo}
         imageIconSearch={iconSearch}
-        getValue={(e: any) => getValue(e)}
+        onChange={(e:React.ChangeEvent)=>getValue(e)}
         valueInput={valueInput}
-        submitRequest={api}
+        submit={getDataFromApi}
       />
 
       <div className="_main">
