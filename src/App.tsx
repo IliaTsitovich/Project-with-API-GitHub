@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import Header from './components/Header/header'
 import Logo from './images/logo.png'
 import iconSearch from './images/imageSearchIcon.png'
@@ -11,65 +11,56 @@ import { propsProfileComponent } from './components/Profile/Profile';
 
 function App() {
 
-  const [value, setValue] = useState('');
+  const [valueLinkFetch, setValueLinkFetch] = useState('');
   const [data, setData] = useState<propsProfileComponent | null>(null);
   const [valueInput, setValueInput] = useState('');
   const [userLink, setUserLink]= useState('');
   const [status, setStatus] = useState(false)
 
-  const getValue = (e:any):void=> {
-    let nameOfUser: string = e.currentTarget.value;
-    
-    setValue(nameOfUser.split(' ').join(""))
-    setUserLink(nameOfUser.split(' ').join(""))
-    setValueInput(nameOfUser)
+  
+  function setCurrentNameFromInput(currentNameFromInput:string) {
+    setValueLinkFetch(currentNameFromInput.split(' ').join(""))
+    setUserLink(currentNameFromInput.split(' ').join(""))
+    setValueInput(currentNameFromInput)
   }
 
+  const getValue = (e:Event & {currentTarget: HTMLButtonElement}):void=> {
+    const nameOfUser: string = e.currentTarget.value;
+    setCurrentNameFromInput(nameOfUser)
+  }
 
-    useEffect(()=>{
-      console.log(value);
-    },[value])
+  async function getDataFromApi(e: React.KeyboardEvent) {
+    const url = `https://api.github.com/users/${valueLinkFetch}`;
 
-    useEffect(()=>{
-      console.log(data);
-    },[data])
+    if (e.key === "Enter" && valueLinkFetch !== "") {
+        setValueInput("");
 
-    useEffect(()=>{
-      console.log(`${status? "Получили ответ запроса" : "ошибка запроса или ничего не найдено"}`);
-    },[status])
-
-   function api(e:any) {
-    
-    let url = `https://api.github.com/users/${value}`
- 
-    if(e.key === "Enter" && value !== "") {
-      console.log('Enter');
-      console.log("value is " + value);
-      setValueInput("")
-
-    fetch(url)
-        .then(response => {
-        if (!response.ok) {
-          alert("Request error")
-          setStatus(false)
-        } else {
-          setStatus(true)
+        try {
+            const response = await fetch(url);
+            if (!response.ok) {
+                throw new Error("Request error");
+            }
+            const data = await response.json();
+            setData(data);
+            setStatus(true);
+        } catch (error) {
+            console.error("Error fetching data:", error);
+            alert("Request error");
+            setStatus(false);
+        } finally {
+            setValueLinkFetch("");
         }
-        return response.json();
-      })
-        .then((data)=>{setData(data)})
-        .then(()=> setValue(""))
     }
-   }
+}
 
   return (
     <>
       <Header
         imageLogo={Logo}
         imageIconSearch={iconSearch}
-        getValue={(e: any)=>getValue(e)}
+        onChange={(e: any)=>getValue(e)}
         valueInput={valueInput}
-        submitRequest={api}
+        submit={getDataFromApi}
       />
       <div className='mainInfo'>
         {status && data?
@@ -82,8 +73,7 @@ function App() {
             following={data.following}
           />
           :
-          // заглушка пока что - при поиске пользователя "ss" - получаем ошибку(для проверки)
-          "Ничего не найдено (заглушка)"
+          "Not Found"
         }
 
       </div>

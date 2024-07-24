@@ -1,4 +1,6 @@
-type PropsImageComponent ={
+import { FC } from "react"
+
+type Props ={
     image: string,
     classNameImage: string,
     classNameContainerForImage?: string,
@@ -6,9 +8,9 @@ type PropsImageComponent ={
 
 }
 
-function AnyImage({...props}:PropsImageComponent){
+const AnyImage: FC<Props>=(props)=>{
 
-    const {image, classNameImage,title,classNameContainerForImage}= {...props}
+    const {image, classNameImage,title,classNameContainerForImage} = props
     return (
         <div className={classNameContainerForImage} >
             <img 
