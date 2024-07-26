@@ -19,22 +19,6 @@ function App() {
   const [userLink, setUserLink] = useState("");
   const [status, setStatus] = useState(false);
 
-
-async function getInfoAboutRepositories(data: propsProfileComponent) {
-    let urlRepo: string = data.repos_url;
-    fetch(urlRepo)
-      .then((response) => {
-        if (!response.ok) {
-          console.log("Request to Repositories is error");
-        }
-        return response.json();
-      })
-      .then((result) => {
-        setArrayRepositories(result);
-      });
-  }
-
-  
 function setCurrentNameFromInput(currentNameFromInput:string) {
     setValueLinkFetch(currentNameFromInput.split(' ').join(""))
     setUserLink(currentNameFromInput.split(' ').join(""))
@@ -46,7 +30,21 @@ const getValue = (e:React.ChangeEvent<HTMLInputElement>):void=> {
     setCurrentNameFromInput(nameOfUser)
   }
 
-  async function getDataFromApi(e: React.KeyboardEvent) {
+async function getInfoAboutRepositories (data: propsProfileComponent) {
+  let urlRepo: string = data.repos_url
+  fetch(urlRepo)
+  .then(response => {
+    if (!response.ok) {
+      console.log("Request to Repositories is error")
+    }
+    return response.json();
+  })
+  .then((result)=>{
+    setArrayRepositories(result)
+  })
+}
+
+async function getDataFromApi(e: React.KeyboardEvent) {
     const url = `https://api.github.com/users/${valueLinkFetch}`;
 
     if (e.key === "Enter" && valueLinkFetch !== "") {
@@ -70,7 +68,6 @@ const getValue = (e:React.ChangeEvent<HTMLInputElement>):void=> {
         }
     }
 }
-
   return (
     <>
       <Header
@@ -80,9 +77,15 @@ const getValue = (e:React.ChangeEvent<HTMLInputElement>):void=> {
         valueInput={valueInput}
         submit={getDataFromApi}
       />
+<<<<<<< HEAD
 
       <div className="_main">
         {status && data ? (
+=======
+      
+      <div className='_main'>
+        {status && data?
+>>>>>>> b52aa19 (fix: rebase conflicts)
           <Profile
             avatar_url={data.avatar_url}
             name={data.name}
@@ -91,7 +94,11 @@ const getValue = (e:React.ChangeEvent<HTMLInputElement>):void=> {
             followers={data.followers}
             following={data.following}
             repos_url={data.repos_url}
+<<<<<<< HEAD
             isRepo={true}
+=======
+            isRepo = {true}
+>>>>>>> b52aa19 (fix: rebase conflicts)
             arrOfRepo={arrayRepositories}
           />
         ) : (
