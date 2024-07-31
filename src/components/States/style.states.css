@@ -6,19 +6,17 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    h3{
-        font-family: "Inter";
-        font-weight: 300;
-        text-align: center;
-        color: #808080;
-        font-size: 22px;
-        width: 210px;
-    }
 }
 
-._no_repo_state.state_components{
- h3{
+.state_components>h3{
+    font-family: "Inter";
+    font-weight: 300;
+    text-align: center;
+    color: #808080;
+    font-size: 22px;
+    width: 210px;
+}
+._no_repo_state.state_components >h3{
     margin-top: 48px;
     width: auto;
- }
 }

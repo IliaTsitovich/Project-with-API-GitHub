@@ -2,7 +2,7 @@ import { FC } from "react";
 import InitStateIcon from '../../images/Icon_InitialState.png';
 import IconUser from '../../images/Icon_InitialState.png';
 import EmptyRepo from '../../images/Union.png';
-import '../States/_style_states.scss'
+import './style.states.css';
 
 type Props ={
     className: string,

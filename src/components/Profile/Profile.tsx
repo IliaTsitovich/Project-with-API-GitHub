@@ -1,6 +1,6 @@
 import AnyImage from "../Image/ImageComponent";
 import { FC } from "react";
-import "./_style_Profile.scss";
+import styles from './styles.profile.module.css';
 import Folowers from "../../images/followers.png";
 import Folowing from "../../images/following.png";
 import Repositories from "../Repositories/ItemRepository";
@@ -10,7 +10,7 @@ import CurrentState from "../States/CurrentState";
 
 
 
-export type propsProfileComponent= {
+export type Props= {
     avatar_url: string,
     userName:string,
     name: string,
@@ -23,37 +23,37 @@ export type propsProfileComponent= {
 }
 
 
-const Profile:FC<propsProfileComponent> = (props)=> {
+const Profile:FC<Props> = (props)=> {
 
     const listRepositories = props.arrOfRepo;
     
     return (
-        <div className="_main_info">
-            <div className="_blockProfile">
+        <div className={styles._main_info}>
+            <div className={styles._blockProfile}>
                 <AnyImage 
                     image = {props.avatar_url} 
-                    classNameImage="_avatar_image" 
+                    classNameImage={styles._avatar_image} 
                     title="avatar" 
                 />
 
-            <div className="_blockProfile_userInfo">
+            <div className={styles._blockProfile_userInfo}>
                 <h2>{props.name}</h2>
                     <a 
                         href={`https://github.com/${props.userName}`}
                         target="_blank" 
                         rel="noopener noreferrer"
-                        className="_user_link">
+                        className={styles._user_link}>
                             {props.login}
                     </a>
-                <div className="_blockProfile_follow">
-                    <div className="_follow_block">
-                        <AnyImage image={Folowers} title="followers" classNameImage="_icon_follow _iconFollowers"/>
+                <div className={styles._blockProfile_follow}>
+                    <div className={styles._follow_block}>
+                        <AnyImage image={Folowers} title="followers" classNameImage={styles._icon_follow}/>
                         <p>
                             {props.followers}{props.followers>1000? "k " : " "}{"followers"}
                         </p>
                     </div>
-                    <div className="_follow_block">
-                        <AnyImage image={Folowing} title="following" classNameImage="_icon_follow _iconFollowing"/>
+                    <div className={styles._follow_block}>
+                        <AnyImage image={Folowing} title="following" classNameImage={styles._icon_follow}/>
                         <p>
                             {props.following}{props.following>1000? "k " : " "}{"following"}
                         </p>
@@ -63,7 +63,7 @@ const Profile:FC<propsProfileComponent> = (props)=> {
             </div>
                    {
                    listRepositories != undefined? 
-                    <div className="_main_repo">
+                    <div className={styles._main_repo}>
                     <h2>{`Repositories (${listRepositories.length})`}</h2>
                     {
                         listRepositories.map((item)=>

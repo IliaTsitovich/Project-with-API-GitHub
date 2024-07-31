@@ -1,5 +1,5 @@
 import { FC} from "react";
-import './_style_repositories.scss'
+import styles from './style.repositories.module.css'
 
 export type Trepo = {
         name: string,
@@ -12,12 +12,12 @@ export type Trepo = {
 const Repositories:FC<Trepo> = ({name,id,description,html_url}) => {
     
     return(
-        <div className="_item_repository" key={id}>
+        <div className={styles._item_repository} key={id}>
             <a 
                 href={html_url}
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="_link_one_repo">
+                className={styles._link_one_repo}>
                 {name}
                 </a>
                     <p>
