@@ -66,8 +66,9 @@ async function getDataFromApi(e: React.KeyboardEvent) {
             getInfoAboutRepositories(data)
             setIsFetching(true);
         } catch (error) {
-            console.error("Error fetching data:", error);
+            setIsLoading(false)
             setIsFetching(false);
+            console.error("Error fetching data:", error);
         } finally {
             setValueLinkFetch("");
         }
