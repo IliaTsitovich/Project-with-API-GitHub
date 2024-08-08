@@ -1,22 +1,22 @@
-.state_components{
-    position: relative;
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+.state_components {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-.state_components>h3{
-    font-family: "Inter";
-    font-weight: 300;
-    text-align: center;
-    color: #808080;
-    font-size: 22px;
-    width: 210px;
+.state_components > h3 {
+  font-family: "Inter";
+  font-weight: 300;
+  text-align: center;
+  color: #808080;
+  font-size: 22px;
+  width: 210px;
 }
-._no_repo_state.state_components >h3{
-    margin-top: 48px;
-    width: auto;
+._no_repo_state.state_components > h3 {
+  margin-top: 48px;
+  width: auto;
 }
