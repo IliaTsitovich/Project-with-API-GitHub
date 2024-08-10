@@ -1,0 +1,46 @@
+.Pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  list-style: none;
+  outline: transparent;
+  padding: 0;
+}
+.Pagination > li {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto 16px;
+  width: 21px;
+  height: 25px;
+}
+.Pagination > li > a {
+  width: 21px;
+  text-align: center;
+  margin: auto;
+}
+li:hover {
+  background: #17283d4d;
+  color: #fff;
+  cursor: pointer;
+  scale: 1.08;
+  border-radius: 3px;
+}
+li:active {
+  background: #0066eb81;
+  border-radius: 3px;
+}
+
+.active {
+  background: #0064eb;
+  color: #fff;
+  border-radius: 3px;
+}
+.infoPagination {
+  position: relative;
+  justify-content: end;
+  margin-right: 70px;
+  display: flex;
+  align-items: center;
+  color: #808080;
+}

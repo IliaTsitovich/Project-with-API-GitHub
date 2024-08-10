@@ -1,9 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
 
-body{
-    font-family: "Inter", sans-serif;
-    background: #F9F9F9;
-    overflow: auto;
-    overflow-x: hidden;
-    margin: 0;
+body {
+  font-family: "Inter", sans-serif;
+  background: #f9f9f9;
+  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
+  margin: 0;
 }
