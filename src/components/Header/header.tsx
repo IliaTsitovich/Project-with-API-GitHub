@@ -1,7 +1,6 @@
-import AnyImage from "../Image/ImageComponent";
+import Image from "../Image/ImageComponent";
 import styles from "./styles.header.module.css";
 import { Props as TPropsFromInput } from "../Input/Input.tsx";
-
 import Input from "../Input/Input";
 
 type Props = {
@@ -10,27 +9,28 @@ type Props = {
   className?: string;
 };
 
-const Header: React.FC<Props & TPropsFromInput> = (props) => {
-  const { imageLogo, imageIconSearch, onChange } = props;
+const Header = (props: Props & TPropsFromInput) => {
+  const { imageLogo, imageIconSearch, handleChangeCallback } = props;
 
   return (
     <header>
-      <div className={styles.header__container}>
-        <AnyImage
+      <div className={styles.headerContainer}>
+        <Image
           image={imageLogo}
           title="LogoGitHub"
-          classNameImage={styles.header__image_logo}
+          classNameImage={styles.imageLogo}
         />
-        <div className={styles.header__container_for_input}>
-          <AnyImage
+        <div className={styles.containerForInput}>
+          <Image
             image={imageIconSearch}
             title="IconSearch"
-            classNameImage={styles.header__image_iconSearch}
+            classNameImage={styles.iconSearch}
           />
           <Input
-            onChange={onChange}
-            valueInput={props.valueInput}
-            submit={props.submit}
+            handleChangeCallback={handleChangeCallback}
+            value={props.value}
+            handleSubmitCallback={props.handleSubmitCallback}
+            classNameInput={styles.headerInput}
           />
         </div>
       </div>

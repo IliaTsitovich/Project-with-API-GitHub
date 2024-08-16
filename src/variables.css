@@ -1,0 +1,10 @@
+:root {
+  --color-bg-input: white;
+  --color-bg-item-repository: white;
+  --color-bg-link-repository: #0064eb;
+  --color-text-status: #808080;
+  --color-bg: #0064eb;
+  --active-text-color: #fff;
+  --text-pagination-color: #808080;
+  --hover-bg-item: #17283d4d;
+}

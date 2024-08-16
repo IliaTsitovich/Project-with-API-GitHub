@@ -7,7 +7,7 @@ type Props = {
   title: string;
 };
 
-const AnyImage: FC<Props> = (props) => {
+const Image: FC<Props> = (props) => {
   const { image, classNameImage, title, classNameContainerForImage } = props;
   return (
     <div className={classNameContainerForImage}>
@@ -16,4 +16,4 @@ const AnyImage: FC<Props> = (props) => {
   );
 };
 
-export default AnyImage;
+export default Image;

@@ -1,43 +1,46 @@
+@import "../../variables.css";
+
 header {
   position: relative;
   top: 0;
   left: 0;
-  background: #0064eb;
+  background: var(--color-bg);
   display: flex;
-  width: 100vw;
+  width: 100%;
   height: 72px;
 }
-.header__container {
+.headerContainer {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   margin-left: 2%;
 }
-.header__image_logo:hover {
+.imageLogo:hover {
   cursor: pointer;
 }
 
-.header__container_for_input {
+.containerForInput {
   display: flex;
   margin-left: 4%;
-  background: white;
+  background: var(--color-bg-input);
   width: 500px;
   height: 40px;
-  border-radius: 5px;
+  border-radius: 6px;
   align-items: center;
 }
-.header__container_for_input:hover {
+.containerForInput:hover {
   scale: 1.02;
 }
-.header__image_iconSearch {
+.iconSearch {
   padding-left: 8px;
 }
 
-input {
+.headerInput {
   border: none;
-  width: 85%;
+  width: calc(100% - 7%);
   height: 35px;
   outline: none;
-  padding-left: 8px;
+  margin-left: 8px;
+  padding: 0;
 }

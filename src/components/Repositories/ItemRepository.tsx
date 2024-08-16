@@ -10,13 +10,13 @@ export type Trepo = {
 
 const Repositories: FC<Trepo> = ({ name, id, description, html_url }) => {
   return (
-    <div className={styles._item_repository}>
+    <div className={styles.containerRepositories}>
       <a
         key={id}
         href={html_url}
         target="_blank"
         rel="noopener noreferrer"
-        className={styles._link_one_repo}
+        className={styles.linkRepositories}
       >
         {name}
       </a>

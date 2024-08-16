@@ -1,18 +1,25 @@
 import { FC } from "react";
 
 export type Props = {
-  onChange: (event: React.ChangeEvent) => void;
-  submit: (event: React.KeyboardEvent) => void;
-  valueInput: string;
+  handleChangeCallback: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleSubmitCallback: (event: React.KeyboardEvent) => void;
+  value: string;
+  classNameInput?: string
 };
 
-const Input: FC<Props> = (props) => {
+const Input: FC<Props> = ({
+  handleChangeCallback,
+  handleSubmitCallback,
+  value,
+  classNameInput
+}) => {
   return (
     <input
       type="text"
-      onChange={props.onChange}
-      value={props.valueInput}
-      onKeyDown={props.submit}
+      onChange={handleChangeCallback}
+      value={value}
+      onKeyDown={handleSubmitCallback}
+      className={classNameInput}
     />
   );
 };

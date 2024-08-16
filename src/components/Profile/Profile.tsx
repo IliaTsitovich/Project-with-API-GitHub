@@ -1,16 +1,16 @@
-import AnyImage from "../Image/ImageComponent";
+import Image from "../Image/ImageComponent";
 import { FC, useEffect, useState } from "react";
 import styles from "./styles.profile.module.css";
 import Folowers from "../../images/followers.png";
 import Folowing from "../../images/following.png";
 import Repositories from "../Repositories/ItemRepository";
 import { Trepo } from "../Repositories/ItemRepository";
-import { LIST_STATES } from "../States/CurrentState";
-import CurrentState from "../States/CurrentState";
+import { LIST_STATUS } from "../StatusDisplay/StatusDisplay";
+import StatusDisplay from "../StatusDisplay/StatusDisplay";
 
 export type Props = {
+  html_url: string;
   avatar_url: string;
-  userName: string;
   name: string;
   login: string;
   followers: number;
@@ -18,82 +18,69 @@ export type Props = {
   repos_url: string;
   repositories: number;
   arrOfRepo: Trepo[] | [];
-  amountOfRepo: number;
 };
 
 const Profile: FC<Props> = (props) => {
   const listRepositories = props.arrOfRepo;
-  const [followers, setFollowers] = useState("");
-  const [following, setFollowing] = useState("");
 
-  function formatNumber(num: number) {
+  const formatNumber = (num: number) => {
     if (num >= 1000) {
       return (num / 1000).toFixed(1) + "K ";
     }
     return num.toString();
-  }
-
-  useEffect(() => {
-    const follower = formatNumber(props.followers);
-    setFollowers(follower);
-  }, [props.followers]);
-
-  useEffect(() => {
-    const followin = formatNumber(props.following);
-    setFollowing(followin);
-  }, [props.following]);
+  };
 
   return (
-    <div className={styles._main_info}>
-      <div className={styles._blockProfile}>
-        <AnyImage
+    <div className={styles.mainInfo}>
+      <div className={styles.blockProfile}>
+        <Image
           image={props.avatar_url}
-          classNameImage={styles._avatar_image}
+          classNameImage={styles.imageUsers}
           title="avatar"
         />
 
-        <div className={styles._blockProfile_userInfo}>
+        <div className={styles.userInfo}>
           <h2>{props.name}</h2>
           <a
-            href={`https://github.com/${props.userName}`}
+            href={props.html_url}
             target="_blank"
             rel="noopener noreferrer"
-            className={styles._user_link}
+            className={styles.userLink}
           >
             {props.login}
           </a>
-          <div className={styles._blockProfile_follow}>
-            <div className={styles._follow_block}>
-              <AnyImage
+          <div className={styles.containerSubscriptionInfo}>
+            <div className={styles.containerFollow}>
+              <Image
                 image={Folowers}
                 title="followers"
-                classNameImage={styles._icon_follow}
+                classNameImage={styles.iconFollow}
               />
               <p>
-                {followers}
+                {formatNumber(props.followers)}
                 {" followers"}
               </p>
             </div>
-            <div className={styles._follow_block}>
-              <AnyImage
+            <div className={styles.containerFollow}>
+              <Image
                 image={Folowing}
                 title="following"
-                classNameImage={styles._icon_follow}
+                classNameImage={styles.iconFollow}
               />
               <p>
-                {following}
-
+                {formatNumber(props.following)}
                 {" following"}
               </p>
             </div>
           </div>
         </div>
       </div>
-      {props.repositories !== 0 ? (
-        <div className={styles._main_repo}>
-          <h2>{`Repositories (${props.amountOfRepo})`}</h2>
+      {props.repositories !== 0 && (
+        <div className={styles.containerRepositoriesInfo}>
+          <h2>{`Repositories (${props.repositories})`}</h2>
           {listRepositories.map((item) => (
             <Repositories
+              key={item.id}
               name={item.name}
               id={item.id}
               description={item.description}
@@ -101,12 +88,13 @@ const Profile: FC<Props> = (props) => {
             />
           ))}
         </div>
-      ) : (
-        <CurrentState
-          className={LIST_STATES.no_repositories_state.className}
-          title_image={LIST_STATES.no_repositories_state.title_image}
-          image={LIST_STATES.no_repositories_state.image}
-          text={LIST_STATES.no_repositories_state.text}
+      )}
+      {props.repositories === 0 && (
+        <StatusDisplay
+          className={LIST_STATUS.no_repositories_status.className}
+          title_image={LIST_STATUS.no_repositories_status.title_image}
+          image={LIST_STATUS.no_repositories_status.image}
+          text={LIST_STATUS.no_repositories_status.text}
         />
       )}
     </div>

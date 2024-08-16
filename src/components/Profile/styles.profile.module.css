@@ -1,50 +1,42 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
+@import "../../variables.css";
 
-* {
-  font-family: "Inter", sans-serif;
-}
-
-._main_info {
+.mainInfo {
   position: relative;
   padding: 40px 56px;
   display: flex;
 }
-._user_link {
-  text-decoration: none;
-  color: #0064eb;
-  cursor: pointer;
-}
-
-._blockProfile {
+.blockProfile {
   min-width: 292px;
   display: flex;
   flex-direction: column;
   padding-right: 84px;
 }
-._blockProfile_userInfo > p {
-  padding: 0 0 2px 0;
-}
-._avatar_image {
+.imageUsers {
   border-radius: 50%;
   width: 280px;
   height: 280px;
 }
-
-._blockProfile_follow {
+.userInfo > p {
+  padding: 0 0 2px 0;
+}
+.userLink {
+  text-decoration: none;
+  color: var(--color-bg);
+  cursor: pointer;
+}
+.containerSubscriptionInfo {
   margin-top: 25px;
   display: flex;
   justify-content: space-between;
 }
-
-._follow_block {
+.containerFollow {
   display: inherit;
   align-items: center;
 }
-
-._icon_follow {
+.iconFollow {
   margin: auto 5px;
 }
-._main_repo {
+.containerRepositoriesInfo {
   position: relative;
   width: 877px;
   max-width: calc(100% - 20px);

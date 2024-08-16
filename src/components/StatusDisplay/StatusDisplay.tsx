@@ -11,34 +11,34 @@ type Props = {
   text: string;
 };
 
-export const LIST_STATES = {
-  initial_state: {
-    className: "_init_state state_components",
+export const LIST_STATUS = {
+  initial_status: {
+    className: "initState statusComponent",
     image: InitStateIcon,
     title_image: "Search Icon Initial state",
     text: "Start with searching a GitHub user",
   },
-  no_users_state: {
-    className: "_no_users_state state_components",
+  no_users_status: {
+    className: "noUserState statusComponent",
     image: IconUser,
     title_image: "Icon of User",
     text: "User not found",
   },
-  no_repositories_state: {
-    className: "_no_repo_state state_components",
+  no_repositories_status: {
+    className: "noRepositoriesState statusComponent",
     image: EmptyRepo,
     title_image: "Icon Empty",
     text: "Repository list is empty",
   },
 };
 
-const CurrentState: FC<Props> = (props) => {
+const StatusDisplay: FC<Props> = ({ className, image, title_image, text }) => {
   return (
-    <div className={props.className}>
-      <img src={props.image} alt={props.title_image} />
-      <h3>{props.text}</h3>
+    <div className={className}>
+      <img src={image} alt={title_image} />
+      <h3>{text}</h3>
     </div>
   );
 };
 
-export default CurrentState;
+export default StatusDisplay;

@@ -1,3 +1,5 @@
+@import "../../variables.css";
+
 .Pagination {
   display: flex;
   align-items: center;
@@ -10,7 +12,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: auto 16px;
+  margin-left: 16px;
   width: 21px;
   height: 25px;
 }
@@ -19,21 +21,9 @@
   text-align: center;
   margin: auto;
 }
-li:hover {
-  background: #17283d4d;
-  color: #fff;
-  cursor: pointer;
-  scale: 1.08;
-  border-radius: 3px;
-}
-li:active {
-  background: #0066eb81;
-  border-radius: 3px;
-}
-
 .active {
-  background: #0064eb;
-  color: #fff;
+  background: var(--color-bg);
+  color: var(--active-text-color);
   border-radius: 3px;
 }
 .infoPagination {
@@ -42,5 +32,23 @@ li:active {
   margin-right: 70px;
   display: flex;
   align-items: center;
-  color: #808080;
+  color: var(--text-pagination-color);
+}
+.infoText {
+  color: var(--text-pagination-color);
+}
+.iconLeft:hover path,
+.iconRight:hover path,
+.linkNext:hover,
+.linkPreview:hover {
+  cursor: pointer;
+  stroke: #0064eb;
+}
+.page:hover,
+.linkBreak:hover {
+  background: var(--hover-bg-item);
+  color: var(--active-text-color);
+  cursor: pointer;
+  scale: 1.08;
+  border-radius: 3px;
 }

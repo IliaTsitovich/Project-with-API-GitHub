@@ -1,4 +1,6 @@
-.state_components {
+@import "../../variables.css";
+
+.statusComponent {
   width: 100vw;
   height: 100vh;
   display: flex;
@@ -12,15 +14,15 @@
   z-index: -1;
 }
 
-.state_components > h3 {
+.statusComponent > h3 {
   font-family: "Inter";
   font-weight: 300;
   text-align: center;
-  color: #808080;
+  color: var(--color-text-status);
   font-size: 22px;
   width: 210px;
 }
-._no_repo_state.state_components > h3 {
+.noRepositoriesState.statusComponent > h3 {
   margin-top: 48px;
   width: auto;
 }
