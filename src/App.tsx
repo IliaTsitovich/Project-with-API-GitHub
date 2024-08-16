@@ -1,5 +1,4 @@
 import { useState } from "react";
-import "./fonts/_style_fonts.scss";
 import "./main-styles.css";
 import Header from "./components/Header/header";
 import StatusDisplay from "./components/StatusDisplay/StatusDisplay";
