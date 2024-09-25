@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./main-styles.css";
+import stylesStatus from "../src/components/StatusDisplay/style.status.module.css";
 import Header from "./components/Header/header";
 import StatusDisplay from "./components/StatusDisplay/StatusDisplay";
 import Profile from "./components/Profile/Profile";
@@ -73,7 +74,7 @@ function App() {
 			/>
 			{isLoading ? (
 				<StatusDisplay
-					className={LIST_STATUS.initial_status.className}
+					className={stylesStatus.statusComponent}
 					title_image={LIST_STATUS.initial_status.title_image}
 					image={LIST_STATUS.initial_status.image}
 					text={LIST_STATUS.initial_status.text}
@@ -102,7 +103,7 @@ function App() {
 						</>
 					) : (
 						<StatusDisplay
-							className={LIST_STATUS.no_users_status.className}
+							className={stylesStatus.statusComponent}
 							title_image={LIST_STATUS.no_users_status.title_image}
 							image={LIST_STATUS.no_users_status.image}
 							text={LIST_STATUS.no_users_status.text}

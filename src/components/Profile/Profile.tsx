@@ -1,5 +1,5 @@
 import Image from "../Image/ImageComponent";
-import { FC, useEffect, useState } from "react";
+import { FC } from "react";
 import styles from "./styles.profile.module.css";
 import Folowers from "../../images/followers.png";
 import Folowing from "../../images/following.png";
@@ -7,6 +7,7 @@ import Repositories from "../Repositories/ItemRepository";
 import { Trepo } from "../Repositories/ItemRepository";
 import { LIST_STATUS } from "../StatusDisplay/StatusDisplay";
 import StatusDisplay from "../StatusDisplay/StatusDisplay";
+import stylesStatus from "../StatusDisplay/style.status.module.css";
 
 export type Props = {
 	html_url: string;
@@ -77,7 +78,7 @@ const Profile: FC<Props> = (props) => {
 			</div>
 			{props.repositories !== 0 && (
 				<div className={styles.containerRepositoriesInfo}>
-					<h2>{`Repositories (${props.repositories})`}</h2>
+					<h2 className={styles.titleBlockRepositories}>{`Repositories (${props.repositories})`}</h2>
 					{listRepositories.map((item) => (
 						<Repositories
 							key={item.id}
@@ -91,7 +92,7 @@ const Profile: FC<Props> = (props) => {
 			)}
 			{props.repositories === 0 && (
 				<StatusDisplay
-					className={LIST_STATUS.no_repositories_status.className}
+					className={stylesStatus.statusComponent}
 					title_image={LIST_STATUS.no_repositories_status.title_image}
 					image={LIST_STATUS.no_repositories_status.image}
 					text={LIST_STATUS.no_repositories_status.text}
