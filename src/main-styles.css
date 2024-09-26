@@ -1,0 +1,12 @@
+* {
+  font-family: "Inter", sans-serif;
+}
+body {
+  background: #f9f9f9;
+  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
+  margin: 0;
+}
+
+

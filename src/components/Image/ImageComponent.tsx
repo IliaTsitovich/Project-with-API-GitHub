@@ -1,22 +1,19 @@
-type PropsImageComponent ={
-    image: string,
-    classNameImage: string,
-    classNameContainerForImage?: string,
-    title: string
+import { FC } from "react";
 
-}
+type Props = {
+	image: string;
+	classNameImage: string;
+	classNameContainerForImage?: string;
+	title: string;
+};
 
-function AnyImage({...props}:PropsImageComponent){
+const Image: FC<Props> = (props) => {
+	const { image, classNameImage, title, classNameContainerForImage } = props;
+	return (
+		<div className={classNameContainerForImage}>
+			<img src={image} alt={title} className={classNameImage} />
+		</div>
+	);
+};
 
-    const {image, classNameImage,title,classNameContainerForImage}= {...props}
-    return (
-        <div className={classNameContainerForImage} >
-            <img 
-                src={image}
-                alt={title}
-                className={classNameImage}/>
-        </div>
-    )
-}
-
-export default AnyImage;
+export default Image;
