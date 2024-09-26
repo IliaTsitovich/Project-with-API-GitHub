@@ -1,5 +1,7 @@
 import { FC } from "react";
 import styles from "./style.repositories.module.css";
+import { FC } from "react";
+import styles from "./style.repositories.module.css";
 
 export type Trepo = {
 	name: string;
@@ -25,3 +27,4 @@ const Repositories: FC<Trepo> = ({ name, id, description, html_url }) => {
 	);
 };
 export default Repositories;
+
