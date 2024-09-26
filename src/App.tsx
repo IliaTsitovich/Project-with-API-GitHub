@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import "./main-styles.css";
 import stylesStatus from "../src/components/StatusDisplay/style.status.module.css";
@@ -12,6 +13,7 @@ import { LIST_STATUS } from "./components/StatusDisplay/StatusDisplay";
 import PaginationPanel from "./components/InfoPagination/PaginationPanel";
 import { API_BASE_URL, fetchHelper } from "./config";
 
+
 function App() {
 	const [valueLinkFetch, setValueLinkFetch] = useState("");
 	const [dataFromApi, setDataFromApi] = useState<Props | null>(null);
@@ -19,6 +21,7 @@ function App() {
 	const [valueInput, setValueInput] = useState("");
 	const [isLoading, setIsLoading] = useState(true);
 	const [amountOfRepositories, setAmountOFRepositories] = useState(0);
+
 
 	const setCurrentNameFromInput = (currentNameFromInput: string) => {
 		const formattedName = currentNameFromInput.replace(/\s+/g, "");
@@ -62,6 +65,7 @@ function App() {
 			}
 		}
 	};
+
 
 	return (
 		<>

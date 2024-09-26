@@ -1,7 +1,8 @@
 import { FC } from "react";
 
 export type Props = {
-	handleChangeCallback: (e: React.ChangeEvent<HTMLInputElement>) => void;
+
+handleChangeCallback: (e: React.ChangeEvent<HTMLInputElement>) => void;
 	handleSubmitCallback: (event: React.KeyboardEvent) => void;
 	value: string;
 	classNameInput?: string;
@@ -22,6 +23,6 @@ const Input: FC<Props> = ({
 			className={classNameInput}
 		/>
 	);
-};
+
 
 export default Input;
