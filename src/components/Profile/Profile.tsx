@@ -1,5 +1,5 @@
 import Image from "../Image/ImageComponent";
-import { FC, useEffect, useState } from "react";
+import { FC } from "react";
 import styles from "./styles.profile.module.css";
 import Folowers from "../../images/followers.png";
 import Folowing from "../../images/following.png";
