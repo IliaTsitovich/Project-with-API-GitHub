@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import Header from './components/Header/header'
 import Logo from './images/logo.png'
 import iconSearch from './images/imageSearchIcon.png'
@@ -11,59 +11,23 @@ import { Trepo } from './components/Repositories/ItemRepository'
 
 function App() {
 
-  const [value, setValue] = useState('');
+  const [valueLinkFetch, setValueLinkFetch] = useState('');
   const [data, setData] = useState<propsProfileComponent | null>(null);
   const [arrayRepositories, setArrayRepositories] = useState<Trepo[] | undefined>(undefined)
   const [valueInput, setValueInput] = useState('');
   const [userLink, setUserLink]= useState('');
   const [status, setStatus] = useState(false)
 
-  const getValue = (e:any):void=> {
-    let nameOfUser: string = e.currentTarget.value;
-    
-    setValue(nameOfUser.split(' ').join(""))
-    setUserLink(nameOfUser.split(' ').join(""))
-    setValueInput(nameOfUser)
+  
+  function setCurrentNameFromInput(currentNameFromInput:string) {
+    setValueLinkFetch(currentNameFromInput.split(' ').join(""))
+    setUserLink(currentNameFromInput.split(' ').join(""))
+    setValueInput(currentNameFromInput)
   }
 
-
-
-async function getInfoAboutRepositories (data: propsProfileComponent) {
-  let urlRepo: string = data.repos_url
-  fetch(urlRepo)
-  .then(response => {
-    if (!response.ok) {
-      console.log("Request to Repositories is error")
-    }
-    return response.json();
-  })
-  .then((result)=>{
-    setArrayRepositories(result)
-  })
-}
-  
-  async function api(e:any) {
-    
-    if(e.key === "Enter" && value !== "") {
-      console.log('Enter');
-      console.log("value is " + value);
-      setValueInput("")
-
-    fetch(`https://api.github.com/users/${value}`)
-        .then(response => {
-        if (!response.ok) {
-          setStatus(false)
-        } else {
-          setStatus(true)
-        }
-        return response.json();
-      })
-        .then((data)=>{
-          setData(data)
-          getInfoAboutRepositories(data)
-        })
-        .then(()=> setValue(""))
-    }
+  const getValue = (e:Event & {currentTarget: HTMLButtonElement}):void=> {
+    const nameOfUser: string = e.currentTarget.value;
+    setCurrentNameFromInput(nameOfUser)
   }
 
   return (
@@ -71,9 +35,9 @@ async function getInfoAboutRepositories (data: propsProfileComponent) {
       <Header
         imageLogo={Logo}
         imageIconSearch={iconSearch}
-        getValue={(e: any)=>getValue(e)}
+        onChange={(e: any)=>getValue(e)}
         valueInput={valueInput}
-        submitRequest={api}
+        submit={getDataFromApi}
       />
       
       <div className='_main'>
