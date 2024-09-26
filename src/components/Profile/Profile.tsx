@@ -1,83 +1,105 @@
-import AnyImage from "../Image/ImageComponent";
+import Image from "../Image/ImageComponent";
 import { FC } from "react";
-import "./_style_Profile.scss";
+import styles from "./styles.profile.module.css";
 import Folowers from "../../images/followers.png";
 import Folowing from "../../images/following.png";
 import Repositories from "../Repositories/ItemRepository";
 import { Trepo } from "../Repositories/ItemRepository";
+import { LIST_STATUS } from "../StatusDisplay/StatusDisplay";
+import StatusDisplay from "../StatusDisplay/StatusDisplay";
+import stylesStatus from "../StatusDisplay/style.status.module.css";
 
+export type Props = {
+	html_url: string;
+	avatar_url: string;
+	name: string;
+	login: string;
+	followers: number;
+	following: number;
+	repos_url: string;
+	repositories: number;
+	arrOfRepo: Trepo[] | [];
+};
 
+const Profile: FC<Props> = (props) => {
+	const listRepositories = props.arrOfRepo;
 
-export type propsProfileComponent= {
-    avatar_url: string,
-    userName:string,
-    name: string,
-    login: string,
-    followers: number,
-    following: number,
-    repos_url: string,
-    isRepo?: boolean,
-    arrOfRepo?: Trepo[];
-}
+	const formatNumber = (num: number) => {
+		if (num >= 1000) {
+			return (num / 1000).toFixed(1) + "K ";
+		}
+		return num.toString();
+	};
 
+	return (
+		<div className={styles.mainInfo}>
+			<div className={styles.blockProfile}>
+				<Image
+					image={props.avatar_url}
+					classNameImage={styles.imageUsers}
+					title="avatar"
+				/>
 
-const Profile:FC<propsProfileComponent> = (props)=> {
-
-    const listRepositories = props.arrOfRepo;
-    
-    return (
-        <div className="_main_info">
-            <div className="_blockProfile">
-                <AnyImage 
-                    image = {props.avatar_url} 
-                    classNameImage="_avatar_image" 
-                    title="avatar" 
-                />
-
-            <div className="_blockProfile_userInfo">
-                <h2>{props.name}</h2>
-                    <a 
-                        href={`https://github.com/${props.userName}`}
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="_user_link">
-                            {props.login}
-                    </a>
-                <div className="_blockProfile_follow">
-                    <div className="_follow_block">
-                        <AnyImage image={Folowers} title="followers" classNameImage="_icon_follow _iconFollowers"/>
-                        <p>
-                            {props.followers}{props.followers>1000? "k " : " "}{"followers"}
-                        </p>
-                    </div>
-                    <div className="_follow_block">
-                        <AnyImage image={Folowing} title="following" classNameImage="_icon_follow _iconFollowing"/>
-                        <p>
-                            {props.following}{props.following>1000? "k " : " "}{"following"}
-                        </p>
-                    </div>
-                </div>
-            </div>
-            </div>
-                   {
-                   listRepositories != undefined? 
-                    <div className="_main_repo">
-                    <h2>{`Repositories (${listRepositories.length})`}</h2>
-                    {
-                        listRepositories.map((item)=>
-                            <Repositories  
-                                name = {item.name}
-                                id={item.id}
-                                description={item.description}
-                                html_url={item.html_url}
-                                />
-                        )
-                    }
-                    </div> 
-                    : null
-                   }               
-        </div>
-    )
-}
+				<div className={styles.userInfo}>
+					<h2>{props.name}</h2>
+					<a
+						href={props.html_url}
+						target="_blank"
+						rel="noopener noreferrer"
+						className={styles.userLink}
+					>
+						{props.login}
+					</a>
+					<div className={styles.containerSubscriptionInfo}>
+						<div className={styles.containerFollow}>
+							<Image
+								image={Folowers}
+								title="followers"
+								classNameImage={styles.iconFollow}
+							/>
+							<p>
+								{formatNumber(props.followers)}
+								{" followers"}
+							</p>
+						</div>
+						<div className={styles.containerFollow}>
+							<Image
+								image={Folowing}
+								title="following"
+								classNameImage={styles.iconFollow}
+							/>
+							<p>
+								{formatNumber(props.following)}
+								{" following"}
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			{props.repositories !== 0 && (
+				<div className={styles.containerRepositoriesInfo}>
+					<h2 className={styles.titleBlockRepositories}>{`Repositories (${props.repositories})`}</h2>
+					{listRepositories.map((item) => (
+						<Repositories
+							key={item.id}
+							name={item.name}
+							id={item.id}
+							description={item.description}
+							html_url={item.html_url}
+						/>
+					))}
+				</div>
+			)}
+			{props.repositories === 0 && (
+				<StatusDisplay
+					className={stylesStatus.statusComponent}
+					title_image={LIST_STATUS.no_repositories_status.title_image}
+					image={LIST_STATUS.no_repositories_status.image}
+					text={LIST_STATUS.no_repositories_status.text}
+				/>
+			)}
+		</div>
+	);
+};
 
 export default Profile;

@@ -1,33 +1,41 @@
-import AnyImage from "../Image/ImageComponent"
-import './_style_header.scss'
+import Image from "../Image/ImageComponent";
+import styles from "./styles.header.module.css";
+import { Props as TPropsFromInput } from "../Input/Input.tsx";
+import Input from "../Input/Input";
 
+type Props = {
+	imageLogo: string;
+	imageIconSearch: string;
+	className?: string;
+};
 
-import Input from "../Input/Input"
+const Header = (props: Props & TPropsFromInput) => {
+	const { imageLogo, imageIconSearch, handleChangeCallback } = props;
 
-type PropsForHeader = {
-    imageLogo: string,
-    imageIconSearch: string,
-    className?: string,
-    getValue?: Function,
-    valueInput: string,
-    submitRequest: Function
-}
-
-const Header: React.FC<PropsForHeader> = ({...props})=> {
-
-    const {imageLogo, imageIconSearch, getValue} = {...props}
-
-    return (
-        <header>
-            <div className="header__header_container">
-               <AnyImage image={imageLogo} title="LogoGitHub" classNameImage="header__image_logo" />
-            <div className="header__container_for_input">
-                   <AnyImage image={imageIconSearch} title="IconSearch" classNameImage="header__image_iconSearch" />
-                   <Input onChange = {getValue} valueInput = {props.valueInput} submit ={props.submitRequest}/>
-            </div>
-            </div>
-        </header>
-    )
-}
+	return (
+		<header>
+			<div className={styles.headerContainer}>
+				<Image
+					image={imageLogo}
+					title="LogoGitHub"
+					classNameImage={styles.imageLogo}
+				/>
+				<div className={styles.containerForInput}>
+					<Image
+						image={imageIconSearch}
+						title="IconSearch"
+						classNameImage={styles.iconSearch}
+					/>
+					<Input
+						handleChangeCallback={handleChangeCallback}
+						value={props.value}
+						handleSubmitCallback={props.handleSubmitCallback}
+						classNameInput={styles.headerInput}
+					/>
+				</div>
+			</div>
+		</header>
+	);
+};
 
 export default Header;
