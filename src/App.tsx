@@ -1,84 +1,122 @@
-import { useState } from 'react'
-import Header from './components/Header/header'
-import Logo from './images/logo.png'
-import iconSearch from './images/imageSearchIcon.png'
-import Profile from './components/Profile/Profile';
-import "./fonts/_style_fonts.scss";
-import "./_style_main.scss";
-import { propsProfileComponent } from './components/Profile/Profile';
 
+import { useState } from "react";
+import "./main-styles.css";
+import stylesStatus from "../src/components/StatusDisplay/style.status.module.css";
+import Header from "./components/Header/header";
+import StatusDisplay from "./components/StatusDisplay/StatusDisplay";
+import Profile from "./components/Profile/Profile";
+import Logo from "./images/logo.png";
+import iconSearch from "./images/imageSearchIcon.png";
+import { Props } from "./components/Profile/Profile";
+import { Trepo } from "./components/Repositories/ItemRepository";
+import { LIST_STATUS } from "./components/StatusDisplay/StatusDisplay";
+import PaginationPanel from "./components/InfoPagination/PaginationPanel";
+import { API_BASE_URL, fetchHelper } from "./config";
 
 
 function App() {
+	const [valueLinkFetch, setValueLinkFetch] = useState("");
+	const [dataFromApi, setDataFromApi] = useState<Props | null>(null);
+	const [arrayRepositories, setArrayRepositories] = useState<Trepo[] | []>([]);
+	const [valueInput, setValueInput] = useState("");
+	const [isLoading, setIsLoading] = useState(true);
+	const [amountOfRepositories, setAmountOFRepositories] = useState(0);
 
-  const [valueLinkFetch, setValueLinkFetch] = useState('');
-  const [data, setData] = useState<propsProfileComponent | null>(null);
-  const [valueInput, setValueInput] = useState('');
-  const [userLink, setUserLink]= useState('');
-  const [status, setStatus] = useState(false)
 
-  
-  function setCurrentNameFromInput(currentNameFromInput:string) {
-    setValueLinkFetch(currentNameFromInput.split(' ').join(""))
-    setUserLink(currentNameFromInput.split(' ').join(""))
-    setValueInput(currentNameFromInput)
-  }
+	const setCurrentNameFromInput = (currentNameFromInput: string) => {
+		const formattedName = currentNameFromInput.replace(/\s+/g, "");
+		setValueLinkFetch(formattedName);
+		setValueInput(formattedName);
+	};
 
-  const getValue = (e:Event & {currentTarget: HTMLButtonElement}):void=> {
-    const nameOfUser: string = e.currentTarget.value;
-    setCurrentNameFromInput(nameOfUser)
-  }
+	const getUserNameFromInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const nameOfUser = e.currentTarget.value;
+		setCurrentNameFromInput(nameOfUser);
+	};
 
-  async function getDataFromApi(e: React.KeyboardEvent) {
-    const url = `https://api.github.com/users/${valueLinkFetch}`;
+	const getInfoAboutRepositories = async (
+		page: number = 1,
+		perPage: number = 4
+	) => {
+		try {
+			const urlFetchRepositories: string = `${API_BASE_URL}users/${valueLinkFetch}/repos?type=owner&page=${page}&per_page=${perPage}&sort=created`;
+			const result = await fetchHelper(urlFetchRepositories);
+			setArrayRepositories(result);
+		} catch (error) {
+			console.error("An error occurred:", error);
+		}
+	};
 
-    if (e.key === "Enter" && valueLinkFetch !== "") {
-        setValueInput("");
+	const getUserInfo = async (e: React.KeyboardEvent) => {
+		const url = `${API_BASE_URL}users/${valueLinkFetch}`;
 
-        try {
-            const response = await fetch(url);
-            if (!response.ok) {
-                throw new Error("Request error");
-            }
-            const data = await response.json();
-            setData(data);
-            setStatus(true);
-        } catch (error) {
-            console.error("Error fetching data:", error);
-            alert("Request error");
-            setStatus(false);
-        } finally {
-            setValueLinkFetch("");
-        }
-    }
+		if (e.key === "Enter" && valueLinkFetch !== "") {
+			try {
+				const data = await fetchHelper(url);
+				setIsLoading(false);
+				setDataFromApi(data);
+				await getInfoAboutRepositories();
+				setAmountOFRepositories(data.public_repos);
+			} catch (error) {
+				setIsLoading(false);
+				console.error("Error fetching data:", error);
+			} finally {
+				setValueInput("");
+			}
+		}
+	};
+
+
+	return (
+		<>
+			<Header
+				imageLogo={Logo}
+				imageIconSearch={iconSearch}
+				handleChangeCallback={(e) => getUserNameFromInput(e)}
+				value={valueInput}
+				handleSubmitCallback={getUserInfo}
+			/>
+			{isLoading ? (
+				<StatusDisplay
+					className={stylesStatus.statusComponent}
+					title_image={LIST_STATUS.initial_status.title_image}
+					image={LIST_STATUS.initial_status.image}
+					text={LIST_STATUS.initial_status.text}
+				/>
+			) : (
+				<div className="_main">
+					{dataFromApi ? (
+						<>
+							<Profile
+								avatar_url={dataFromApi.avatar_url}
+								name={dataFromApi.name}
+								html_url={dataFromApi.html_url}
+								login={dataFromApi.login}
+								followers={dataFromApi.followers}
+								following={dataFromApi.following}
+								repos_url={dataFromApi.repos_url}
+								repositories={amountOfRepositories}
+								arrOfRepo={arrayRepositories}
+							/>
+							{amountOfRepositories !== 0 && (
+								<PaginationPanel
+									allItemsOfRepo={amountOfRepositories}
+									getRepositoriesFromCurrentPage={getInfoAboutRepositories}
+								/>
+							)}
+						</>
+					) : (
+						<StatusDisplay
+							className={stylesStatus.statusComponent}
+							title_image={LIST_STATUS.no_users_status.title_image}
+							image={LIST_STATUS.no_users_status.image}
+							text={LIST_STATUS.no_users_status.text}
+						/>
+					)}
+				</div>
+			)}
+		</>
+	);
 }
 
-  return (
-    <>
-      <Header
-        imageLogo={Logo}
-        imageIconSearch={iconSearch}
-        onChange={(e: any)=>getValue(e)}
-        valueInput={valueInput}
-        submit={getDataFromApi}
-      />
-      <div className='mainInfo'>
-        {status && data?
-          <Profile
-            avatar_url={data.avatar_url} 
-            name = {data.name}
-            userName={userLink}
-            login={data.login}
-            followers={data.followers}
-            following={data.following}
-          />
-          :
-          "Not Found"
-        }
-
-      </div>
-    </>
-  )
-}
-
-export default App
+export default App;

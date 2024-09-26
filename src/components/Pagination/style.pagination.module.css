@@ -1,0 +1,75 @@
+@import "../../variables.css";
+
+.Pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  list-style: none;
+  outline: transparent;
+  padding: 0;
+  flex-wrap: wrap; /* Allow wrapping for smaller screens */
+}
+
+.Pagination > li {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 8px; /* Adjust margin for better spacing on smaller screens */
+  width: 21px;
+  height: 25px;
+}
+
+.Pagination > li > a {
+  width: 21px;
+  text-align: center;
+  margin: auto;
+}
+
+.active {
+  background: var(--color-bg);
+  color: var(--active-text-color);
+  border-radius: 3px;
+}
+
+.infoPagination {
+  position: relative;
+  justify-content: end;
+  margin-right: 70px;
+  display: flex;
+  align-items: center;
+  color: var(--text-pagination-color);
+  flex-wrap: wrap; /* Allow wrapping for smaller screens */
+}
+
+.infoText {
+  color: var(--text-pagination-color);
+}
+
+.iconLeft:hover path,
+.iconRight:hover path,
+.linkNext:hover,
+.linkPreview:hover {
+  cursor: pointer;
+  stroke: #0064eb;
+}
+
+.page:hover,
+.linkBreak:hover {
+  background: var(--hover-bg-item);
+  color: var(--active-text-color);
+  cursor: pointer;
+  scale: 1.08;
+  border-radius: 3px;
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 768px) {
+  .Pagination {
+    justify-content: space-around; /* Adjust alignment for smaller screens */
+  }
+
+  .infoPagination {
+    margin-right: 0;
+    justify-content: center; /* Center align for smaller screens */
+  }
+}
