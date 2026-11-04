@@ -68,14 +68,13 @@ function App() {
             user={user}
             repositories={repositories}
             repositoriesStatus={repositoriesStatus}
-          />
-          {user.public_repos !== 0 && (
+          >
             <PaginationPanel
               allItemsOfRepo={user.public_repos}
               currentPage={page}
               onPageChange={loadPage}
             />
-          )}
+          </Profile>
         </main>
       );
     }
