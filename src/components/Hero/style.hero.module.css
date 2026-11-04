@@ -30,6 +30,7 @@
   );
   filter: blur(90px);
   transform: translate(-50%, -50%);
+  pointer-events: none;
   animation: glowSpin 18s linear infinite;
 }
 
@@ -128,11 +129,18 @@
   cursor: pointer;
   font-size: 16px;
   font-weight: 600;
-  transition: background 0.15s ease;
+  transition:
+    background 0.15s ease,
+    box-shadow 0.15s ease;
 }
 
 .searchButton:hover {
   background: var(--color-bg-hover);
+  box-shadow: 0 6px 16px rgb(0 100 235 / 35%);
+}
+
+.searchButton:active {
+  box-shadow: none;
 }
 
 .examples {
@@ -159,14 +167,12 @@
   font-size: 14px;
   transition:
     border-color 0.15s ease,
-    color 0.15s ease,
-    transform 0.15s ease;
+    color 0.15s ease;
 }
 
 .example:hover {
   border-color: var(--color-bg);
   color: var(--color-bg);
-  transform: translateY(-1px);
 }
 
 .searchButton:focus-visible,
@@ -198,5 +204,10 @@
   .glow,
   .content {
     animation: none;
+  }
+
+  .searchButton,
+  .example {
+    transition: none;
   }
 }

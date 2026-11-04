@@ -36,6 +36,32 @@ describe("App", () => {
     expect(screen.getByText("1 - 4 of 9 items")).toBeInTheDocument();
   });
 
+  it("shows the pagination inside the repositories section", async () => {
+    mockGithub({ octocat: {} });
+    render(<App />);
+
+    await searchFor("octocat");
+
+    const heading = await screen.findByRole("heading", {
+      name: "Repositories (9)",
+    });
+    expect(heading.parentElement).toContainElement(
+      screen.getByText("1 - 4 of 9 items")
+    );
+  });
+
+  it("hides the pagination for a user without repositories", async () => {
+    mockGithub({ empty: { user: { public_repos: 0 } } });
+    render(<App />);
+
+    await searchFor("empty");
+
+    expect(
+      await screen.findByText("Repository list is empty")
+    ).toBeInTheDocument();
+    expect(screen.queryByText(/of 0 items/)).not.toBeInTheDocument();
+  });
+
   it("searches an example user from the start screen", async () => {
     mockGithub({ torvalds: {} });
     render(<App />);

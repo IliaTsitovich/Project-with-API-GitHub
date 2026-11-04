@@ -1,5 +1,5 @@
 import Image from "../Image/ImageComponent";
-import { FC } from "react";
+import { FC, ReactNode } from "react";
 import styles from "./styles.profile.module.css";
 import FollowersIcon from "../../images/followers.png";
 import FollowingIcon from "../../images/following.png";
@@ -13,6 +13,7 @@ type Props = {
   user: GithubUser;
   repositories: GithubRepository[];
   repositoriesStatus: RepositoriesStatus;
+  children?: ReactNode;
 };
 
 const numberFormatter = new Intl.NumberFormat("en", {
@@ -20,7 +21,12 @@ const numberFormatter = new Intl.NumberFormat("en", {
   maximumFractionDigits: 1,
 });
 
-const Profile: FC<Props> = ({ user, repositories, repositoriesStatus }) => {
+const Profile: FC<Props> = ({
+  user,
+  repositories,
+  repositoriesStatus,
+  children,
+}) => {
   return (
     <div className={styles.mainInfo}>
       <div className={styles.blockProfile}>
@@ -84,6 +90,7 @@ const Profile: FC<Props> = ({ user, repositories, repositoriesStatus }) => {
               />
             ))
           )}
+          {children}
         </div>
       ) : (
         <StatusDisplay {...LIST_STATUS.no_repositories_status} />

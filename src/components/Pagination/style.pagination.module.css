@@ -27,10 +27,8 @@
   border-radius: 3px;
 }
 .infoPagination {
-  position: relative;
-  justify-content: end;
-  margin-right: 70px;
   display: flex;
+  justify-content: flex-end;
   align-items: center;
   color: var(--text-pagination-color);
 }
@@ -56,7 +54,6 @@
   .infoPagination {
     flex-wrap: wrap;
     justify-content: center;
-    margin: 0 16px;
   }
   .Pagination > li {
     margin-left: 8px;
