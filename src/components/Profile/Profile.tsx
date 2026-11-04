@@ -1,8 +1,8 @@
 import Image from "../Image/ImageComponent";
 import { FC } from "react";
 import styles from "./styles.profile.module.css";
-import Folowers from "../../images/followers.png";
-import Folowing from "../../images/following.png";
+import FollowersIcon from "../../images/followers.png";
+import FollowingIcon from "../../images/following.png";
 import Repositories from "../Repositories/ItemRepository";
 import StatusDisplay from "../StatusDisplay/StatusDisplay";
 import { LIST_STATUS } from "../StatusDisplay/listStatus";
@@ -27,7 +27,7 @@ const Profile: FC<Props> = ({ user, repositories, repositoriesStatus }) => {
         <Image
           image={user.avatar_url}
           classNameImage={styles.imageUsers}
-          title="avatar"
+          title={`${user.login} avatar`}
         />
 
         <div className={styles.userInfo}>
@@ -43,7 +43,7 @@ const Profile: FC<Props> = ({ user, repositories, repositoriesStatus }) => {
           <div className={styles.containerSubscriptionInfo}>
             <div className={styles.containerFollow}>
               <Image
-                image={Folowers}
+                image={FollowersIcon}
                 title="followers"
                 classNameImage={styles.iconFollow}
               />
@@ -54,7 +54,7 @@ const Profile: FC<Props> = ({ user, repositories, repositoriesStatus }) => {
             </div>
             <div className={styles.containerFollow}>
               <Image
-                image={Folowing}
+                image={FollowingIcon}
                 title="following"
                 classNameImage={styles.iconFollow}
               />

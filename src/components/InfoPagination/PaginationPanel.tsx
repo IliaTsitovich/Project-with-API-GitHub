@@ -43,7 +43,7 @@ const PaginationPanel: FC<Props> = ({
         nextClassName={style.nextLabel}
         previousClassName={style.previousLabel}
         nextLinkClassName={style.linkNext}
-        previousLinkClassName={style.linkPreview}
+        previousLinkClassName={style.linkPrevious}
         pageClassName={style.page}
       />
     </div>

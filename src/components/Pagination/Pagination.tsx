@@ -1,8 +1,8 @@
 import { FC } from "react";
 import ReactPaginate from "react-paginate";
 import style from "./style.pagination.module.css";
-import ReactComponenPreviousLabel from "../../images/leftArrow.svg?react";
-import ReactComponentNextLabel from "../../images/rightArrow.svg?react";
+import PreviousIcon from "../../images/leftArrow.svg?react";
+import NextIcon from "../../images/rightArrow.svg?react";
 export interface Props {
   forcePage?: number;
   marginPagesDisplayed?: number;
@@ -11,7 +11,6 @@ export interface Props {
   pageRangeDisplayed: number;
   containerClassName?: string;
   activeClassName: string;
-  pageLinkClassName?: string;
   breakLinkClassName: string;
   nextLinkClassName: string;
   previousLinkClassName: string;
@@ -19,8 +18,6 @@ export interface Props {
   breakClassName?: string;
   nextClassName: string;
   previousClassName: string;
-  previousLabel?: string;
-  nextLabel?: string;
   breakLabel?: string;
 }
 
@@ -58,8 +55,8 @@ export const Pagination: FC<Props> = ({
       nextClassName={nextClassName}
       previousClassName={previousClassName}
       breakLabel={breakLabel}
-      previousLabel={<ReactComponenPreviousLabel className={style.iconLeft} />}
-      nextLabel={<ReactComponentNextLabel className={style.iconRight} />}
+      previousLabel={<PreviousIcon className={style.iconLeft} />}
+      nextLabel={<NextIcon className={style.iconRight} />}
     />
   );
 };

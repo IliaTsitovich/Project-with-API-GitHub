@@ -3,12 +3,6 @@ import IconUser from "../../images/Icon_User.png";
 import EmptyRepo from "../../images/Union.png";
 
 export const LIST_STATUS = {
-  initial_status: {
-    className: "initState statusComponent",
-    image: InitStateIcon,
-    title_image: "Search Icon Initial state",
-    text: "Start with searching a GitHub user",
-  },
   no_users_status: {
     className: "noUserState statusComponent",
     image: IconUser,

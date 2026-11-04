@@ -26,3 +26,17 @@
   margin-top: 48px;
   width: auto;
 }
+.loadingState.statusComponent > img {
+  animation: statusPulse 1.2s ease-in-out infinite;
+}
+@keyframes statusPulse {
+  50% {
+    opacity: 0.35;
+    transform: scale(0.92);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .loadingState.statusComponent > img {
+    animation: none;
+  }
+}
