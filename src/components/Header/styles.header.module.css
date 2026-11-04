@@ -12,9 +12,11 @@ header {
 .headerContainer {
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
-  margin-left: 2%;
+  flex: 1;
+  min-width: 0;
+  margin: 0 2%;
 }
 .imageLogo:hover {
   cursor: pointer;
@@ -24,7 +26,9 @@ header {
   display: flex;
   margin-left: 4%;
   background: var(--color-bg-input);
-  width: 500px;
+  flex: 1;
+  min-width: 0;
+  max-width: 500px;
   height: 40px;
   border-radius: 6px;
   align-items: center;
@@ -38,9 +42,10 @@ header {
 
 .headerInput {
   border: none;
-  width: calc(100% - 7%);
+  flex: 1;
+  min-width: 0;
   height: 35px;
   outline: none;
-  margin-left: 8px;
+  margin: 0 8px;
   padding: 0;
 }

@@ -1,24 +1,13 @@
 import { FC } from "react";
 import styles from "./style.repositories.module.css";
-import { FC } from "react";
-import styles from "./style.repositories.module.css";
+import { GithubRepository } from "../../types/github";
 
-export type Trepo = {
-  name: string;
-  description?: string;
-  html_url?: string;
-  id?: number;
-  name: string;
-  description?: string;
-  html_url?: string;
-  id?: number;
-};
+type Props = Pick<GithubRepository, "name" | "description" | "html_url">;
 
-const Repositories: FC<Trepo> = ({ name, id, description, html_url }) => {
+const Repositories: FC<Props> = ({ name, description, html_url }) => {
   return (
     <div className={styles.containerRepositories}>
       <a
-        key={id}
         href={html_url}
         target="_blank"
         rel="noopener noreferrer"
@@ -31,4 +20,3 @@ const Repositories: FC<Trepo> = ({ name, id, description, html_url }) => {
   );
 };
 export default Repositories;
-

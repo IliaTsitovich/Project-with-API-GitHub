@@ -3,8 +3,7 @@
 .containerRepositories {
   display: flex;
   flex-direction: column;
-  width: 877px;
-  max-width: calc(100% - 20px);
+  width: 100%;
   height: auto;
   background: var(--color-bg-item-repository);
   font-family: "Inter";
@@ -19,8 +18,7 @@
   font-size: 24px;
   text-decoration: none;
   color: var(--color-bg-link-repository);
-  width: 100%;
-  height: 29px;
   align-items: center;
   margin: 24px 32px;
+  overflow-wrap: anywhere;
 }

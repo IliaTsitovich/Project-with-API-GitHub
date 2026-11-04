@@ -4,7 +4,7 @@ import style from "./style.pagination.module.css";
 import ReactComponenPreviousLabel from "../../images/leftArrow.svg?react";
 import ReactComponentNextLabel from "../../images/rightArrow.svg?react";
 export interface Props {
-  initialPage?: number;
+  forcePage?: number;
   marginPagesDisplayed?: number;
   pageCount: number;
   onChange: ({ selected }: { selected: number }) => void;
@@ -25,7 +25,7 @@ export interface Props {
 }
 
 export const Pagination: FC<Props> = ({
-  initialPage,
+  forcePage,
   pageCount,
   marginPagesDisplayed,
   onChange,
@@ -43,7 +43,7 @@ export const Pagination: FC<Props> = ({
 }) => {
   return (
     <ReactPaginate
-      initialPage={initialPage}
+      forcePage={forcePage}
       pageCount={pageCount}
       marginPagesDisplayed={marginPagesDisplayed}
       onPageChange={onChange}
