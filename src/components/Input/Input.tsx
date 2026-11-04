@@ -1,25 +1,33 @@
-import { FC } from "react";
+import { ChangeEvent, FC } from "react";
 
 export type Props = {
-  handleChangeCallback: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleSubmitCallback: (event: React.KeyboardEvent) => void;
+  handleChangeCallback: (e: ChangeEvent<HTMLInputElement>) => void;
   value: string;
-  classNameInput?: string
+  classNameInput?: string;
+  placeholder?: string;
+  autoFocus?: boolean;
 };
 
 const Input: FC<Props> = ({
   handleChangeCallback,
-  handleSubmitCallback,
   value,
-  classNameInput
+  classNameInput,
+  placeholder,
+  autoFocus,
 }) => {
   return (
     <input
-      type="text"
+      type="search"
+      aria-label="GitHub username"
+      autoCapitalize="none"
+      autoComplete="off"
+      autoCorrect="off"
+      spellCheck={false}
       onChange={handleChangeCallback}
       value={value}
-      onKeyDown={handleSubmitCallback}
       className={classNameInput}
+      placeholder={placeholder}
+      autoFocus={autoFocus}
     />
   );
 };

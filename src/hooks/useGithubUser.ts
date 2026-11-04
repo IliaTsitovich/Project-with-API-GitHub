@@ -96,5 +96,10 @@ export const useGithubUser = () => {
     [login]
   );
 
-  return { ...state, search, loadPage };
+  const reset = useCallback(() => {
+    controllerRef.current?.abort();
+    setState(INITIAL_STATE);
+  }, []);
+
+  return { ...state, search, loadPage, reset };
 };

@@ -1,4 +1,5 @@
 # Ignore artifacts:
- dist
- build
- coverage
+dist
+build
+coverage
+package-lock.json

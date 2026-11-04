@@ -40,7 +40,7 @@
 .iconLeft:hover path,
 .iconRight:hover path,
 .linkNext:hover,
-.linkPreview:hover {
+.linkPrevious:hover {
   cursor: pointer;
   stroke: #0064eb;
 }

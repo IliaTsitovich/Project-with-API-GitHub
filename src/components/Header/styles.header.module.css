@@ -18,8 +18,18 @@ header {
   min-width: 0;
   margin: 0 2%;
 }
-.imageLogo:hover {
-  cursor: pointer;
+.logoLink {
+  display: flex;
+  flex-shrink: 0;
+  border-radius: 50%;
+  transition: transform 0.15s ease;
+}
+.logoLink:hover {
+  transform: scale(1.08);
+}
+.logoLink:focus-visible {
+  outline: 2px solid var(--active-text-color);
+  outline-offset: 3px;
 }
 
 .containerForInput {
@@ -33,8 +43,8 @@ header {
   border-radius: 6px;
   align-items: center;
 }
-.containerForInput:hover {
-  scale: 1.02;
+.containerForInput:focus-within {
+  box-shadow: 0 0 0 2px rgb(255 255 255 / 60%);
 }
 .iconSearch {
   padding-left: 8px;

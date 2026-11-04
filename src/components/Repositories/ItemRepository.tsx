@@ -15,7 +15,7 @@ const Repositories: FC<Props> = ({ name, description, html_url }) => {
       >
         {name}
       </a>
-      <p>{description ? description : "no descriptions"}</p>
+      <p>{description ? description : "No description"}</p>
     </div>
   );
 };
