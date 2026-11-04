@@ -52,3 +52,13 @@
   scale: 1.08;
   border-radius: 3px;
 }
+@media (max-width: 768px) {
+  .infoPagination {
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 0 16px;
+  }
+  .Pagination > li {
+    margin-left: 8px;
+  }
+}

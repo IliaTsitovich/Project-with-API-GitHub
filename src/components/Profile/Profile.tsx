@@ -4,50 +4,41 @@ import styles from "./styles.profile.module.css";
 import Folowers from "../../images/followers.png";
 import Folowing from "../../images/following.png";
 import Repositories from "../Repositories/ItemRepository";
-import { Trepo } from "../Repositories/ItemRepository";
-import { LIST_STATUS } from "../StatusDisplay/StatusDisplay";
 import StatusDisplay from "../StatusDisplay/StatusDisplay";
+import { LIST_STATUS } from "../StatusDisplay/listStatus";
+import { GithubRepository, GithubUser } from "../../types/github";
+import { RepositoriesStatus } from "../../hooks/useGithubUser";
 
-export type Props = {
-  html_url: string;
-  avatar_url: string;
-  name: string;
-  login: string;
-  followers: number;
-  following: number;
-  repos_url: string;
-  repositories: number;
-  arrOfRepo: Trepo[] | [];
+type Props = {
+  user: GithubUser;
+  repositories: GithubRepository[];
+  repositoriesStatus: RepositoriesStatus;
 };
 
-const Profile: FC<Props> = (props) => {
-  const listRepositories = props.arrOfRepo;
+const numberFormatter = new Intl.NumberFormat("en", {
+  notation: "compact",
+  maximumFractionDigits: 1,
+});
 
-  const formatNumber = (num: number) => {
-    if (num >= 1000) {
-      return (num / 1000).toFixed(1) + "K ";
-    }
-    return num.toString();
-  };
-
+const Profile: FC<Props> = ({ user, repositories, repositoriesStatus }) => {
   return (
     <div className={styles.mainInfo}>
       <div className={styles.blockProfile}>
         <Image
-          image={props.avatar_url}
+          image={user.avatar_url}
           classNameImage={styles.imageUsers}
           title="avatar"
         />
 
         <div className={styles.userInfo}>
-          <h2>{props.name}</h2>
+          <h2>{user.name ?? user.login}</h2>
           <a
-            href={props.html_url}
+            href={user.html_url}
             target="_blank"
             rel="noopener noreferrer"
             className={styles.userLink}
           >
-            {props.login}
+            {user.login}
           </a>
           <div className={styles.containerSubscriptionInfo}>
             <div className={styles.containerFollow}>
@@ -57,7 +48,7 @@ const Profile: FC<Props> = (props) => {
                 classNameImage={styles.iconFollow}
               />
               <p>
-                {formatNumber(props.followers)}
+                {numberFormatter.format(user.followers)}
                 {" followers"}
               </p>
             </div>
@@ -68,34 +59,34 @@ const Profile: FC<Props> = (props) => {
                 classNameImage={styles.iconFollow}
               />
               <p>
-                {formatNumber(props.following)}
+                {numberFormatter.format(user.following)}
                 {" following"}
               </p>
             </div>
           </div>
         </div>
       </div>
-      {props.repositories !== 0 && (
-        <div className={styles.containerRepositoriesInfo}>
-          <h2>{`Repositories (${props.repositories})`}</h2>
-          {listRepositories.map((item) => (
-            <Repositories
-              key={item.id}
-              name={item.name}
-              id={item.id}
-              description={item.description}
-              html_url={item.html_url}
-            />
-          ))}
+      {user.public_repos !== 0 ? (
+        <div
+          className={styles.containerRepositoriesInfo}
+          aria-busy={repositoriesStatus === "loading"}
+        >
+          <h2>{`Repositories (${user.public_repos})`}</h2>
+          {repositoriesStatus === "error" ? (
+            <p>Could not load repositories. Try another page or search again</p>
+          ) : (
+            repositories.map((item) => (
+              <Repositories
+                key={item.id}
+                name={item.name}
+                description={item.description}
+                html_url={item.html_url}
+              />
+            ))
+          )}
         </div>
-      )}
-      {props.repositories === 0 && (
-        <StatusDisplay
-          className={LIST_STATUS.no_repositories_status.className}
-          title_image={LIST_STATUS.no_repositories_status.title_image}
-          image={LIST_STATUS.no_repositories_status.image}
-          text={LIST_STATUS.no_repositories_status.text}
-        />
+      ) : (
+        <StatusDisplay {...LIST_STATUS.no_repositories_status} />
       )}
     </div>
   );

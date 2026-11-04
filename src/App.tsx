@@ -3,63 +3,44 @@ import "./fonts/_style_fonts.scss";
 import "./main-styles.css";
 import Header from "./components/Header/header";
 import StatusDisplay from "./components/StatusDisplay/StatusDisplay";
+import { LIST_STATUS } from "./components/StatusDisplay/listStatus";
 import Profile from "./components/Profile/Profile";
 import Logo from "./images/logo.png";
 import iconSearch from "./images/imageSearchIcon.png";
-import { Props } from "./components/Profile/Profile";
-import { Trepo } from "./components/Repositories/ItemRepository";
-import { LIST_STATUS } from "./components/StatusDisplay/StatusDisplay";
 import PaginationPanel from "./components/InfoPagination/PaginationPanel";
-import { API_BASE_URL, fetchHelper } from "./config";
+import { SearchStatus, useGithubUser } from "./hooks/useGithubUser";
+
+const STATUS_DISPLAY: Record<
+  Exclude<SearchStatus, "success">,
+  keyof typeof LIST_STATUS
+> = {
+  idle: "initial_status",
+  loading: "loading_status",
+  notFound: "no_users_status",
+  rateLimited: "rate_limit_status",
+  error: "error_status",
+};
 
 function App() {
-  const [valueLinkFetch, setValueLinkFetch] = useState("");
-  const [dataFromApi, setDataFromApi] = useState<Props | null>(null);
-  const [arrayRepositories, setArrayRepositories] = useState<Trepo[] | []>([]);
   const [valueInput, setValueInput] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
-  const [amountOfRepositories, setAmountOFRepositories] = useState(0);
+  const {
+    status,
+    user,
+    repositories,
+    page,
+    repositoriesStatus,
+    search,
+    loadPage,
+  } = useGithubUser();
 
-  const setCurrentNameFromInput = (currentNameFromInput: string) => {
-    const formattedName = currentNameFromInput.replace(/\s+/g, "");
-    setValueLinkFetch(formattedName);
-    setValueInput(formattedName);
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValueInput(e.currentTarget.value.replace(/\s+/g, ""));
   };
 
-  const getUserNameFromInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const nameOfUser = e.currentTarget.value;
-    setCurrentNameFromInput(nameOfUser);
-  };
-
-  const getInfoAboutRepositories = async (
-    page: number = 1,
-    perPage: number = 4
-  ) => {
-    try {
-      const urlFetchRepositories: string = `${API_BASE_URL}users/${valueLinkFetch}/repos?type=owner&page=${page}&per_page=${perPage}&sort=created`;
-      const result = await fetchHelper(urlFetchRepositories);
-      setArrayRepositories(result);
-    } catch (error) {
-      console.error("An error occurred:", error);
-    }
-  };
-
-  const getUserInfo = async (e: React.KeyboardEvent) => {
-    const url = `${API_BASE_URL}users/${valueLinkFetch}`;
-
-    if (e.key === "Enter" && valueLinkFetch !== "") {
-      try {
-        const data = await fetchHelper(url);
-        setIsLoading(false);
-        setDataFromApi(data);
-        await getInfoAboutRepositories();
-        setAmountOFRepositories(data.public_repos);
-      } catch (error) {
-        setIsLoading(false);
-        console.error("Error fetching data:", error);
-      } finally {
-        setValueInput("");
-      }
+  const handleSubmit = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" && valueInput !== "") {
+      search(valueInput);
+      setValueInput("");
     }
   };
 
@@ -68,48 +49,31 @@ function App() {
       <Header
         imageLogo={Logo}
         imageIconSearch={iconSearch}
-        handleChangeCallback={(e) => getUserNameFromInput(e)}
+        handleChangeCallback={handleInputChange}
         value={valueInput}
-        handleSubmitCallback={getUserInfo}
+        handleSubmitCallback={handleSubmit}
       />
-      {isLoading ? (
-        <StatusDisplay
-          className={LIST_STATUS.initial_status.className}
-          title_image={LIST_STATUS.initial_status.title_image}
-          image={LIST_STATUS.initial_status.image}
-          text={LIST_STATUS.initial_status.text}
-        />
-      ) : (
+      {status === "success" && user ? (
         <div className="_main">
-          {dataFromApi ? (
-            <>
-              <Profile
-                avatar_url={dataFromApi.avatar_url}
-                name={dataFromApi.name}
-                html_url={dataFromApi.html_url}
-                login={dataFromApi.login}
-                followers={dataFromApi.followers}
-                following={dataFromApi.following}
-                repos_url={dataFromApi.repos_url}
-                repositories={amountOfRepositories}
-                arrOfRepo={arrayRepositories}
-              />
-              {amountOfRepositories !== 0 && (
-                <PaginationPanel
-                  allItemsOfRepo={amountOfRepositories}
-                  getRepositoriesFromCurrentPage={getInfoAboutRepositories}
-                />
-              )}
-            </>
-          ) : (
-            <StatusDisplay
-              className={LIST_STATUS.no_users_status.className}
-              title_image={LIST_STATUS.no_users_status.title_image}
-              image={LIST_STATUS.no_users_status.image}
-              text={LIST_STATUS.no_users_status.text}
+          <Profile
+            user={user}
+            repositories={repositories}
+            repositoriesStatus={repositoriesStatus}
+          />
+          {user.public_repos !== 0 && (
+            <PaginationPanel
+              allItemsOfRepo={user.public_repos}
+              currentPage={page}
+              onPageChange={loadPage}
             />
           )}
         </div>
+      ) : (
+        <StatusDisplay
+          {...LIST_STATUS[
+            STATUS_DISPLAY[status === "success" ? "error" : status]
+          ]}
+        />
       )}
     </>
   );
